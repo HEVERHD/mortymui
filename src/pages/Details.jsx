@@ -12,17 +12,19 @@ import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const RickMortyPage = () => {
-  const [listCharacter, setListCharacter] = useState([]);
+export const Details = () => {
+  const [character, setCharacter] = useState(null);
+  let query = new URLSearchParams(window.location.search);
+  let characterID = query.get("characterID");
 
   useEffect(() => {
-    const enPoint = `https://rickandmortyapi.com/api/character`;
+    const enPointDetails = `https://rickandmortyapi.com/api/character/${characterID}`;
     axios
-      .get(enPoint)
+      .get(enPointDetails)
       .then((res) => {
         const apiData = res.data;
-        setListCharacter(apiData.results);
-        console.log(apiData);
+        setCharacter(apiData);
+        console.log({ apiData });
       })
       .catch((err) => {
         console.log(err);
@@ -39,13 +41,12 @@ export const RickMortyPage = () => {
         color="text.primary"
         gutterBottom
       >
-        Morty Page
+        Details
       </Typography>
       <main>
-        <Container sx={{ py: 2 }} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
-            {listCharacter.map((character) => (
+        {character ? (
+          <Container sx={{ py: 2 }} maxWidth="md">
+            <Grid container spacing={4}>
               <Grid item key={character.id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
@@ -70,19 +71,17 @@ export const RickMortyPage = () => {
                     <Typography>Status : {character.status}</Typography>
                   </CardContent>
                   <CardActions>
-                    <Button
-                      component={RouterLink}
-                      to={`/details?characterID=${character.id}`}
-                      size="small"
-                    >
-                      Details
+                    <Button component={RouterLink} to={`/`} size="small">
+                      Back
                     </Button>
                   </CardActions>
                 </Card>
               </Grid>
-            ))}
-          </Grid>
-        </Container>
+            </Grid>
+          </Container>
+        ) : (
+          <h2>Cargando..</h2>
+        )}
       </main>
     </>
   );
