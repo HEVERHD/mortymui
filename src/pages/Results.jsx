@@ -13,21 +13,29 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "../Rick.css";
 
-export const RickMortyPage = () => {
-  const [listCharacter, setListCharacter] = useState([]);
+export const Results = () => {
+  const [resultCharacter, setResultCharacter] = useState([]);
+  let query = new URLSearchParams(window.location.search);
+  let keyword = query.get("keyword");
 
   useEffect(() => {
-    const enPoint = `https://rickandmortyapi.com/api/character`;
+    const enPoint = `https://rickandmortyapi.com/api/character/?name=${keyword}`;
     axios
       .get(enPoint)
       .then((res) => {
-        const apiData = res.data;
-        setListCharacter(apiData.results);
+        const characterArray = res.data.results;
+
+        if (characterArray.length === 0) {
+          Swal.fire({
+            title: "No se encontro lo que buscabas!",
+          });
+        }
+        setResultCharacter(characterArray);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [keyword]);
 
   return (
     <>
@@ -39,13 +47,24 @@ export const RickMortyPage = () => {
         color="text.primary"
         gutterBottom
       >
-        Morty Page
+        Results : <em>{keyword}</em>
       </Typography>
+      <Typography
+        component="h1"
+        variant="h2"
+        align="center"
+        justifyContent="center"
+        color="text.primary"
+        gutterBottom
+      >
+        {resultCharacter.length === 0 && " No hay Resultados"}
+      </Typography>
+
       <main>
         <Container sx={{ py: 2 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {listCharacter.map((character) => (
+            {resultCharacter.map((character) => (
               <Grid item key={character.id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{

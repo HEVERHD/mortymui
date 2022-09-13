@@ -52,13 +52,12 @@ export const Details = () => {
       </Typography>
       <main>
         {character ? (
-          <Container>
-            <Grid container spacing={4}>
-              <Grid item key={character.id} xs={12} sm={6} md={4}>
+          <Container sx={{ py: 2 }} maxWidth="md">
+            <Grid container justifyContent="center">
+              <Grid item key={character.id}>
                 <Card
                   sx={{
                     height: "100%",
-                    width: 800,
                     display: "flex",
                     flexDirection: "column",
                   }}
@@ -69,11 +68,22 @@ export const Details = () => {
                     image={character.image}
                     alt="Live from space album cover"
                   />
-                  <CardContent sx={{ flexGrow: 1 }}>
+                  <CardContent
+                    display="flex"
+                    justifycontent="center"
+                    align="center"
+                  >
                     <Typography gutterBottom variant="h5" component="h2">
                       {character.name}
                     </Typography>
-                    <Typography>Status : {character.status}</Typography>
+
+                    <p>
+                      {character.species} <span>-</span> {character.gender}
+                    </p>
+                    <p>
+                      {character.location.name} <span>-</span>{" "}
+                      {character.origin.name}
+                    </p>
                   </CardContent>
                   <CardActions>
                     <Button component={RouterLink} to={`/`} size="small">

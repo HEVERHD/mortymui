@@ -7,13 +7,15 @@ import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import Search from "../pages/Search";
+import SearchAppBar from "../pages/Search";
+import SearchP from "../pages/Search";
 
 const drawerWidth = 240;
 const navItems = ["ricky", "About"];
@@ -32,6 +34,7 @@ export const Navbar = (props) => {
         MUI
       </Typography>
       <Divider />
+
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
@@ -74,6 +77,7 @@ export const Navbar = (props) => {
           >
             Rick And Morty
           </Typography>
+          <SearchP />
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
               <Button key={item} sx={{ color: "#fff" }}>
@@ -112,7 +116,6 @@ export const Navbar = (props) => {
       </Box>
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-        {props.children}
       </Box>
     </Box>
   );
